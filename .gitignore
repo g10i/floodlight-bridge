@@ -41,6 +41,10 @@ Pods/
 *.swp
 *~
 
+# Claude Code local-only state (permissions, etc.)
+# Shared agent guidance lives in AGENTS.md / CLAUDE.md, not here.
+.claude/settings.local.json
+
 # Env / secrets
 .env
 .env.*
