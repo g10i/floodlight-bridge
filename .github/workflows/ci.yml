@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  markdown-lint:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Globs and ignores live in .markdownlint-cli2.jsonc so local and CI agree.
+      - uses: DavidAnson/markdownlint-cli2-action@v18
+
+  sample-mesh-json:
+    name: Sample mesh JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse and verify zeroed keys
+        run: |
+          python3 <<'PY'
+          import json, re, sys
+
+          path = "data/sample-mesh-network.json"
+          with open(path) as f:
+              data = json.load(f)
+
+          # All 128-bit key fields (netKey, appKey, deviceKey) must be 32 zero hex chars.
+          zero_key = re.compile(r"^0{32}$")
+          errors = []
+
+          def check(label, value):
+              if not isinstance(value, str) or not zero_key.match(value):
+                  errors.append(f"{label} is not 32 zero hex chars: {value!r}")
+
+          for i, k in enumerate(data.get("netKeys", [])):
+              check(f"netKeys[{i}].key", k.get("key", ""))
+          for i, k in enumerate(data.get("appKeys", [])):
+              check(f"appKeys[{i}].key", k.get("key", ""))
+          for i, n in enumerate(data.get("nodes", [])):
+              check(f"nodes[{i}].deviceKey", n.get("deviceKey", ""))
+
+          if errors:
+              print("Sample mesh JSON failed key-redaction check:")
+              for e in errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+          print(f"OK: sample mesh JSON parses and all keys are zeroed.")
+          PY
+
+  no-real-mesh-json:
+    name: No real mesh JSON committed
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard against real mesh network exports
+        run: |
+          # Allowlist: only data/sample-*.json may match the mesh-network filename pattern.
+          violations=$(find . -type f \
+            \( -iname '*mesh*network*.json' \) \
+            -not -path './.git/*' \
+            -not -path './data/sample-*.json' \
+            -print)
+          if [ -n "$violations" ]; then
+            echo "Disallowed mesh network export(s) committed:"
+            echo "$violations"
+            exit 1
+          fi
+          echo "OK: no real mesh network exports committed."

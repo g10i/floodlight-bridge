@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://www.bluetooth.com/specifications/specs/mesh-cdb-1-0-1-schema.json",
+  "version": "1.0.1",
+  "meshUUID": "00000000-0000-0000-0000-000000000000",
+  "meshName": "Sample Mesh Network",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "partial": false,
+  "netKeys": [
+    {
+      "name": "Primary Network Key",
+      "index": 0,
+      "key": "00000000000000000000000000000000",
+      "phase": 0,
+      "minSecurity": "secure",
+      "timestamp": "2026-01-01T00:00:00Z"
+    }
+  ],
+  "appKeys": [
+    {
+      "name": "App Key 1",
+      "index": 0,
+      "boundNetKey": 0,
+      "key": "00000000000000000000000000000000"
+    }
+  ],
+  "provisioners": [
+    {
+      "provisionerName": "Sample Provisioner",
+      "UUID": "00000000-0000-0000-0000-000000000000",
+      "allocatedUnicastRange": [
+        { "lowAddress": "0001", "highAddress": "199A" }
+      ],
+      "allocatedGroupRange": [
+        { "lowAddress": "C000", "highAddress": "CC9A" }
+      ],
+      "allocatedSceneRange": [
+        { "lowAddress": "0001", "highAddress": "3333" }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "UUID": "00000000-0000-0000-0000-000000000001",
+      "name": "Sample Provisioner Node",
+      "deviceKey": "00000000000000000000000000000000",
+      "unicastAddress": "0001",
+      "security": "secure",
+      "configComplete": true,
+      "netKeys": [
+        { "index": 0, "updated": false }
+      ],
+      "appKeys": [
+        { "index": 0, "updated": false }
+      ],
+      "elements": [
+        {
+          "name": "Primary Element",
+          "index": 0,
+          "location": "0000",
+          "models": [
+            { "modelId": "0000", "bind": [], "subscribe": [] },
+            { "modelId": "0001", "bind": [], "subscribe": [] }
+          ]
+        }
+      ],
+      "excluded": false
+    },
+    {
+      "UUID": "00000000-0000-0000-0000-000000000002",
+      "name": "SollaMaybe",
+      "deviceKey": "00000000000000000000000000000000",
+      "unicastAddress": "0003",
+      "security": "insecure",
+      "configComplete": false,
+      "cid": "0211",
+      "pid": "0000",
+      "vid": "0000",
+      "crpl": "0028",
+      "features": {
+        "relay": 2,
+        "proxy": 2,
+        "friend": 2,
+        "lowPower": 2
+      },
+      "defaultTTL": 7,
+      "netKeys": [
+        { "index": 0, "updated": false }
+      ],
+      "appKeys": [
+        { "index": 0, "updated": false }
+      ],
+      "elements": [
+        {
+          "name": "Primary",
+          "index": 0,
+          "location": "0001",
+          "models": [
+            { "modelId": "0000", "bind": [], "subscribe": [] },
+            { "modelId": "0002", "bind": [], "subscribe": [] },
+            { "modelId": "0003", "bind": [], "subscribe": [] },
+            { "modelId": "1000", "bind": [], "subscribe": [] },
+            { "modelId": "1002", "bind": [0], "subscribe": [] },
+            { "modelId": "1004", "bind": [], "subscribe": [] },
+            { "modelId": "1006", "bind": [], "subscribe": [] },
+            { "modelId": "1007", "bind": [], "subscribe": [] },
+            { "modelId": "1200", "bind": [], "subscribe": [] },
+            { "modelId": "1201", "bind": [], "subscribe": [] },
+            { "modelId": "1203", "bind": [], "subscribe": [] },
+            { "modelId": "1204", "bind": [], "subscribe": [] },
+            { "modelId": "1206", "bind": [], "subscribe": [] },
+            { "modelId": "1207", "bind": [], "subscribe": [] },
+            { "modelId": "1300", "bind": [], "subscribe": [] },
+            { "modelId": "1301", "bind": [], "subscribe": [] },
+            { "modelId": "1303", "bind": [], "subscribe": [] },
+            { "modelId": "1304", "bind": [], "subscribe": [] },
+            { "modelId": "02110000", "bind": [], "subscribe": [] }
+          ]
+        },
+        {
+          "name": "Secondary",
+          "index": 1,
+          "location": "0000",
+          "models": [
+            { "modelId": "1002", "bind": [0], "subscribe": [] },
+            { "modelId": "1306", "bind": [], "subscribe": [] }
+          ]
+        }
+      ],
+      "excluded": false
+    }
+  ],
+  "groups": [],
+  "scenes": []
+}

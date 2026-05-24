@@ -1,0 +1,24 @@
+// markdownlint-cli2 config — https://github.com/DavidAnson/markdownlint-cli2
+{
+  "globs": ["**/*.md"],
+  "ignores": [
+    // The seed is a historic provenance document — frozen, not active docs.
+    "seed.md",
+    // GitHub issue/PR templates use HTML-comment scaffolding that doesn't lint cleanly.
+    ".github/**",
+    "node_modules/**"
+  ],
+  "config": {
+    "default": true,
+    // Long prose lines in ADRs and docs are intentional.
+    "MD013": false,
+    // Bare URLs are sometimes the clearest form.
+    "MD034": false,
+    // Allow inline HTML (e.g. <details>, <br>) in docs.
+    "MD033": false,
+    // Permit duplicate headings across nested sections (common in ADRs).
+    "MD024": { "siblings_only": true },
+    // First line need not be a top-level heading (template/data files).
+    "MD041": false
+  }
+}
